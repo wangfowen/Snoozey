@@ -1,8 +1,11 @@
 class ShamesController < ApplicationController
   # GET /shames
   # GET /shames.json
+
   def index
     @shames = Shame.all
+    @access_token = facebook_cookies['access_token']
+    @graph = Koala::Facebook::GraphAPI.new(@access_token)
 
     respond_to do |format|
       format.html # index.html.erb

@@ -1,6 +1,8 @@
 Snoozy::Application.routes.draw do
   resources :shames
 
+  root :to => 'shames#index'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
