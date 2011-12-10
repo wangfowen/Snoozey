@@ -4,8 +4,8 @@ class ShamesController < ApplicationController
 
   def index
     @shames = Shame.all
-    @access_token = facebook_cookies['access_token']
-    @graph = Koala::Facebook::GraphAPI.new(@access_token)
+    #@access_token = facebook_cookies['access_token']
+    #@graph = Koala::Facebook::GraphAPI.new(@access_token)
 
     respond_to do |format|
       format.html # index.html.erb
