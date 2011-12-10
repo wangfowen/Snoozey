@@ -1,4 +1,6 @@
 Snoozy::Application.routes.draw do
+  resources :wall_posts
+
   resources :shames
 
   root :to => 'shames#index'
