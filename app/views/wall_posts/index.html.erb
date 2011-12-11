@@ -1,21 +1,17 @@
-<h1>Listing wall_posts</h1>
+<div>
+<p>You have <%= @user.shame_points %> shame points</p>
 
-<table>
-  <tr>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+<p>Your message:</p>
+  <%= form_for(@wall_posts) do |f| %>
+    <%= f.text_area :post, :class => "auto-submit" %>
+    <%= f.hidden_field :id %>
+  <% end %>
+</div>
 
-<% @wall_posts.each do |wall_post| %>
-  <tr>
-    <td><%= link_to 'Show', wall_post %></td>
-    <td><%= link_to 'Edit', edit_wall_post_path(wall_post) %></td>
-    <td><%= link_to 'Destroy', wall_post, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Wall post', new_wall_post_path %>
+<script>
+  $(document).ready(function() {
+    $('.auto-submit').change(function() {
+      $(this).parents($('form')).submit();
+    });
+  });
+</script>

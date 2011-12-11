@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111210202321) do
+ActiveRecord::Schema.define(:version => 20111210212025) do
 
   create_table "shames", :force => true do |t|
     t.datetime "created_at"
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(:version => 20111210202321) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "shame_points"
+    t.integer  "shame_points",                          :default => 0
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

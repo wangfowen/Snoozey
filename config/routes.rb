@@ -1,9 +1,7 @@
 Snoozy::Application.routes.draw do
   resources :wall_posts
 
-  resources :shames
-
-  root :to => 'shames#index'
+  root :to => 'wall_posts#index'
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 

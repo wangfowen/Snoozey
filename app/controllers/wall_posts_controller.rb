@@ -1,8 +1,24 @@
 class WallPostsController < ApplicationController
+  
+  before_filter :authenticate_user!, :only => [:index]
+
+  def parse_signed_request(request)
+    encoded_sig, payload = request.split(".")
+    sig = base64_url_decode(encoded_sig)
+
+
+    if OpenSSL::HMAC.digest("sha256", FB[:secret_key], payload) == sig
+      decoded = base64_url_decode(payload)
+      JSON.parse(decoded)
+    else
+      nil
+    end
+  end
   # GET /wall_posts
   # GET /wall_posts.json
   def index
-    @wall_posts = WallPost.all
+    @user = User.find(session["warden.user.user.key"][1]).first
+    @wall_posts = WallPost.find_or_create_by_user_id(@user.id)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -57,10 +73,11 @@ class WallPostsController < ApplicationController
   # PUT /wall_posts/1.json
   def update
     @wall_post = WallPost.find(params[:id])
+    @wall_post.post = params[:post]
 
     respond_to do |format|
       if @wall_post.update_attributes(params[:wall_post])
-        format.html { redirect_to @wall_post, notice: 'Wall post was successfully updated.' }
+        format.html { redirect_to wall_posts_url }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
