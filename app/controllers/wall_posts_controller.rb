@@ -14,6 +14,11 @@ class WallPostsController < ApplicationController
       nil
     end
   end
+
+  def android_post 
+    
+  end
+
   # GET /wall_posts
   # GET /wall_posts.json
   def index
@@ -23,17 +28,6 @@ class WallPostsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @wall_posts }
-    end
-  end
-
-  # GET /wall_posts/1
-  # GET /wall_posts/1.json
-  def show
-    @wall_post = WallPost.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @wall_post }
     end
   end
 

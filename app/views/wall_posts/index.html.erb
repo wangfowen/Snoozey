@@ -1,17 +1,12 @@
 <div>
+<img class="logo" src="/assets/logo.png" />
+
 <p>You have <%= @user.shame_points %> shame points</p>
 
-<p>Your message:</p>
+<p>Wall post:</p>
   <%= form_for(@wall_posts) do |f| %>
-    <%= f.text_area :post, :class => "auto-submit" %>
+    <%= f.text_area :post, :col => 100, :rows => 5 %>
     <%= f.hidden_field :id %>
+    <div><%= f.submit %></div>
   <% end %>
 </div>
-
-<script>
-  $(document).ready(function() {
-    $('.auto-submit').change(function() {
-      $(this).parents($('form')).submit();
-    });
-  });
-</script>
