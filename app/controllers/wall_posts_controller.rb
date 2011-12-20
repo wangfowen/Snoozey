@@ -5,9 +5,11 @@ class WallPostsController < ApplicationController
   # GET /wall_posts
   # GET /wall_posts.json
   def index
-    
     @graph = Koala::Facebook::API.new(@access_token)
-    @wall_post = @user.wall_posts.unposted.first
+    if (wall_post = @user.wall_posts.unposted.first).nil?
+      @wall_post = WallPost.create(:user_id => @user.id)
+    else
+     @wall_post = wall_post
     
 
     respond_to do |format|

@@ -3,7 +3,7 @@ class WallPost < ActiveRecord::Base
 belongs_to :user
 
 UNUSED = '0'
-USED = '2'
+USED = '1'
 
 scope :unposted, where(:status => UNUSED)
 

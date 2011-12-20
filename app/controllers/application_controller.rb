@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
 
   def authenticate_user
   	 if session[:user]
+  	 	#what if can't find session's user
       @user = User.find_by_user_id(session[:user])
       @access_token = @user.access_token
      #elsif for android app
