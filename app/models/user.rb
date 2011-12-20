@@ -7,33 +7,22 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   #attr_accessible :email, :password, :password_confirmation, :remember_me
-  has_one :wall_post
+  has_many :wall_posts
 
   validates :access_token, :presence => true
 
-  APP_SECRET = "8616cc121111c56b67458c3f838b2425"
-
-	def self.base64_url_decode(str)
-		str += '=' * (4 - str.length.modulo(4))
-		Base64.decode64(str.tr('-_','+/'))
+	def self.load_user(data)
+		if user = User.find_by_user_id(data["user_id"])
+			user
+		else
+			user = User.new(:user_id => data["user_id"], :access_token => data["oauth_token"])
+			user.save!
+			user
+		end
 	end
 
-	def self.load_signed_request(request)
-	    encoded_sig, payload = request.split(".")
-	    sig = base64_url_decode(encoded_sig)
-
-	    if OpenSSL::HMAC.digest("sha256", APP_SECRET, payload) == sig
-	      decoded = base64_url_decode(payload)
-	      data = JSON.parse(decoded)
-	      if user = User.find_by_user_id(data["user_id"])
-	      	user
-	      else
-	      	user = User.new(:user_id => data["user_id"], :access_token => data["oauth_token"])
-	      	user.save!
-	      	user
-	      end
-	    else
-	      nil
-	    end
+	def increment_shame_points!
+		self.shame_points++
+		self.save!
 	end
 end

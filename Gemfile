@@ -18,6 +18,7 @@ end
 
 gem 'jquery-rails'
 #gem 'oauth'
+gem 'koala'
 
 
 gem 'devise', '1.5'

@@ -1,22 +1,14 @@
 class WallPostsController < ApplicationController
 
-  require 'koala'
-
-  def android_post 
-    
-  end
+  before_filter :authenticate_user
 
   # GET /wall_posts
   # GET /wall_posts.json
   def index
-    if request = params[:signed_request]
-      @user = User.load_signed_request(request)
-      session[:user] = @user.user_id
-    else
-      @user = User.find_by_user_id(session[:user])
-    end
-
-    @wall_posts = WallPost.find_or_create_by_user_id(@user.id)
+    
+    @graph = Koala::Facebook::API.new(@access_token)
+    @wall_post = @user.wall_posts.unposted.first
+    
 
     respond_to do |format|
       format.html # index.html.erb
@@ -58,9 +50,15 @@ class WallPostsController < ApplicationController
 
   # PUT /wall_posts/1
   # PUT /wall_posts/1.json
+  # If from mobile device, PUT /wall_posts.json
   def update
-    @wall_post = WallPost.find(params[:id])
-    @wall_post.post = params[:post]
+    if params[:id]
+      @wall_post = WallPost.find(params[:id])
+      @wall_post.post = params[:post]
+    else
+      @wall_post = @user.wall_posts.unposted.first
+      @wall_post.post_to_facebook!
+    end
 
     respond_to do |format|
       if @wall_post.update_attributes(params[:wall_post])

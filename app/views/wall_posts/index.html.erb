@@ -1,10 +1,11 @@
 <div>
 <img class="logo" src="/assets/logo.png" />
 
+<p><%= @graph.get_object("me") %></p>
 <p>You have <%= @user.shame_points %> shame points</p>
 
 <p>Wall post:</p>
-  <%= form_for(@wall_posts) do |f| %>
+  <%= form_for(@wall_post) do |f| %>
     <%= f.text_area :post, :col => 100, :rows => 5 %>
     <%= f.hidden_field :id %>
     <div><%= f.submit %></div>

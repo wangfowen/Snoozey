@@ -1,5 +1,9 @@
 Snoozy::Application.routes.draw do
-  resources :wall_posts
+  resources :wall_posts do
+    collection do
+      put 'update'
+    end
+  end
 
   root :to => 'wall_posts#index'
 

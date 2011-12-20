@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111220013005) do
+ActiveRecord::Schema.define(:version => 20111220151858) do
 
   create_table "shames", :force => true do |t|
     t.datetime "created_at"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(:version => 20111220013005) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "status",     :default => 0
   end
 
 end
