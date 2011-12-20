@@ -9,7 +9,8 @@ class WallPostsController < ApplicationController
     if (wall_post = @user.wall_posts.unposted.first).nil?
       @wall_post = WallPost.create(:user_id => @user.id)
     else
-     @wall_post = wall_post
+      @wall_post = wall_post
+    end
     
 
     respond_to do |format|
