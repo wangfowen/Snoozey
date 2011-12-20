@@ -1,19 +1,6 @@
 class WallPostsController < ApplicationController
-  
-  before_filter :authenticate_user!, :only => [:index]
 
-  def parse_signed_request(request)
-    encoded_sig, payload = request.split(".")
-    sig = base64_url_decode(encoded_sig)
-
-
-    if OpenSSL::HMAC.digest("sha256", FB[:secret_key], payload) == sig
-      decoded = base64_url_decode(payload)
-      JSON.parse(decoded)
-    else
-      nil
-    end
-  end
+  require 'koala'
 
   def android_post 
     
@@ -22,7 +9,13 @@ class WallPostsController < ApplicationController
   # GET /wall_posts
   # GET /wall_posts.json
   def index
-    @user = User.find(session["warden.user.user.key"][1]).first
+    if request = params[:signed_request]
+      @user = User.load_signed_request(request)
+      session[:user] = @user.user_id
+    else
+      @user = User.find_by_user_id(session[:user])
+    end
+
     @wall_posts = WallPost.find_or_create_by_user_id(@user.id)
 
     respond_to do |format|

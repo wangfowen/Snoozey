@@ -3,8 +3,6 @@ Snoozy::Application.routes.draw do
 
   root :to => 'wall_posts#index'
 
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
-
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
