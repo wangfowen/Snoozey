@@ -59,7 +59,11 @@ class WallPostsController < ApplicationController
       @wall_post = WallPost.find(params[:id])
       @wall_post.post = params[:post]
     else
-      @wall_post = @user.wall_posts.unposted.first
+      if (wall_post = @user.wall_posts.unposted.first).nil?
+        @wall_post = WallPost.create(:user_id => @user.id, :post => "I'm so lazy I overslept my alarm again")
+      else
+        @wall_post = wall_post
+      end
       @wall_post.post_to_facebook!
     end
 

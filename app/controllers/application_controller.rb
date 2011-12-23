@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   def authenticate_user
-  	 if session[:user]
+  	if session[:user]
   	 	#what if can't find session's user
       @user = User.find_by_user_id(session[:user])
       @access_token = @user.access_token
